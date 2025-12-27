@@ -1,0 +1,101 @@
+/* RESET + BASE ----------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+}
+
+body {
+    background: #f7f8fc;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 25px;
+}
+
+/* CONTAINER -------------------------------------------*/
+.container {
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+}
+
+/* LOGO ------------------------------------------------*/
+.logo {
+    width: 120px;         /* petit comme dans l’image */
+    margin: 0 auto 10px;
+    display: block;
+}
+
+/* TITRE ----------------------------------------------*/
+.header h2 {
+    font-size: 22px;
+    color: #0f3c80;
+    font-weight: 600;
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+/* TEXTE EXPLICATIF -----------------------------------*/
+.subtitle {
+    font-size: 15px;
+    color: #2d3e50;
+    line-height: 22px;
+    margin-bottom: 25px;
+    padding: 0 10px;
+}
+
+.highlight {
+    color: #ff9070;      /* couleur orange du texte “5 minutes” */
+    font-weight: bold;
+}
+
+/* ZONE OTP -------------------------------------------*/
+.otp-box {
+    background: white;
+    padding: 35px 20px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.06);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+/* CHAMPS OTP -----------------------------------------*/
+.otp-input {
+    width: 55px;
+    height: 55px;
+    background: #fdfdfd;
+    border: 1.8px solid #e3e5ea;
+    border-radius: 12px;
+    font-size: 26px;
+    text-align: center;
+    font-weight: bold;
+    color: #2d3e50;
+}
+
+.otp-input:focus {
+    border-color: #0f3c80;
+    outline: none;
+}
+
+/* BOUTON RENVOYER ------------------------------------*/
+.resend-btn {
+    width: 100%;
+    padding: 16px 0;
+    font-size: 15px;
+    color: #9aa1b1;
+    background: #e9e9f1;
+    border: none;
+    border-radius: 14px;
+    cursor: not-allowed;
+}
+
+.resend-btn:enabled {
+    background: #0f3c80;
+    color: white;
+    cursor: pointer;
+}
