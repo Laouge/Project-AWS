@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validation des informations</title>
+<link rel="stylesheet" href="/static/validation.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="back"><span>&larr;</span></div>
+    <h2 class="title">Validation des informations</h2>
+
+    <div class="info-list">
+        <div class="info-row">
+            <span class="label">Indicatif Pays :</span>
+            <span class="value" id="v_indicatif">{{ signup.get('indicatif', '') }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Téléphone :</span>
+            <span class="value" id="v_telephone">{{ signup.get('phone', '') }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Nom :</span>
+            <span class="value" id="v_nom">{{ signup.get('nom', '') }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Prénom :</span>
+            <span class="value" id="v_prenom">{{ signup.get('prenom', '') }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Email :</span>
+            <span class="value email" id="v_email">{{ signup.get('email', '') }}</span>
+        </div>
+    </div>
+
+    <div class="button-row">
+        <button class="btn back-btn" id="btnBack">Retour</button>
+        <button class="btn create-btn" id="btnCreate">Créer le compte</button>
+    </div>
+</div>
+
+<script>
+document.getElementById('btnBack').addEventListener('click', () => {
+    window.location.href = '/';  // Retour à la page registre
+});
+
+document.getElementById('btnCreate').addEventListener('click', async () => {
+    const res = await fetch('/api/create_account', { method: 'POST' });
+    const j = await res.json();
+    if (j.ok) {
+        alert('Compte créé avec succès !');
+        window.location.href = '/dashboard';  // Redirection vers le dashboard
+    } else {
+        alert(j.error || 'Erreur création compte');
+    }
+});
+</script>
+
+</body>
+</html>
