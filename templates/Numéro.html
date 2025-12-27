@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numéro vérifié</title>
+    <link rel="stylesheet" href="static/Numéro.css">
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="popup">
+    <div class="icon">
+        ✔
+    </div>
+
+    <h2>Numéro de téléphone<br>Vérifié !</h2>
+
+    <p class="subtitle">Code OTP envoyé avec succès.</p>
+
+    <button id="btnOK">OK</button>
+</div>
+
+<script>
+document.getElementById("btnOK").addEventListener("click", function() {
+    // OTP fixe pour le moment
+    const otpCode = "1234";
+    
+    // Stocker le code OTP dans le localStorage pour la page de validation
+    localStorage.setItem("otp", otpCode);
+    
+    // Afficher l'OTP dans la console pour test
+    console.log("Code OTP envoyé : " + otpCode);
+    
+    // Redirection vers la page OTP
+    window.location.href = '/otp';
+});
+</script>
+
+</body>
+</html>

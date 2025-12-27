@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S'identifier</title>
+<link rel="stylesheet" href="/static/identification.css">
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="modal">
+    <h2>S'identifier ?</h2>
+
+    <p>
+        Voulez-vous vous identifier ou juste créer un compte simple <br>
+        (Sans identification) ?
+    </p>
+
+    <div class="buttons">
+        <button class="btn continue" id="btnContinue">Continuer</button>
+        <button class="btn identify" id="btnIdentify">S'identifier</button>
+    </div>
+</div>
+
+<script>
+document.getElementById("btnContinue").addEventListener("click", function() {
+    window.location.href = "/numero";
+});
+document.getElementById("btnIdentify").addEventListener("click", function() {
+    window.location.href = "/";
+});
+</script>
+
+</body>
+</html>

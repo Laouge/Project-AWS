@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyNita - Connexion</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="top-bar">
+    <button class="help-btn">❓ Aide</button>
+    <button class="service-btn">📞 Service Client</button>
+</div>
+
+<div class="logo-box">
+    <div class="circle"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+    <img src="/static/logo.png" alt="Logo MyNita">
+</div>
+
+<!-- SECTION BAS DE PAGE -->
+<div class="bottom-area">
+
+    <!-- Champ téléphone -->
+    <div class="input-box">
+        <img class="flag" src="https://flagcdn.com/w20/ne.png">
+        <span class="dial-code" id="loginPhonePrefix">+227</span>
+        <input id="loginPhone" type="text" placeholder="N° de téléphone">
+    </div>
+
+    <!-- Champ mot de passe -->
+    <div class="input-box">
+        <span class="lock">🔒</span>
+        <input id="loginPassword" type="password" placeholder="Mot de passe">
+        <span id="togglePwd" class="eye">👁️</span>
+    </div>
+
+    <div class="forgot">
+        <a href='/motdepasse'>Mot de passe oublié ?</a>
+    </div>
+
+    <button id="loginBtn" class="connect-btn">Se connecter</button>
+
+    <div class="footer">
+        Pas de compte ? 
+        <a href="/registre">Créer un compte</a><br>
+        <span class="version">Version : 3.2.4</span>
+    </div>
+
+</div>
+
+<script>
+// Affichage / Masquage du mot de passe
+document.getElementById('togglePwd').addEventListener('click', () => {
+    const pwd = document.getElementById('loginPassword');
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+});
+
+// Fonction login
+document.getElementById('loginBtn').addEventListener('click', async () => {
+    let phone = document.getElementById('loginPhone').value.trim();
+    let password = document.getElementById('loginPassword').value;
+
+    if (!phone || !password) {
+        alert("Veuillez entrer votre numéro et votre mot de passe.");
+        return;
+    }
+
+    // Nettoyage numéro
+    phone = phone.replace(/[^0-9]/g, '');
+
+    // Ajouter indicatif +227
+    const fullPhone = "+227" + phone;
+
+    const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            phone: fullPhone,
+            password: password
+        })
+    });
+
+    const j = await res.json();
+
+    if (j.ok) {
+        window.location.href = '/dashboard';
+    } else {
+        alert(j.error || "Numéro ou mot de passe incorrect");
+    }
+});
+</script>
+
+</body>
+</html>

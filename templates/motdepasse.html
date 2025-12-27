@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mot de passe oublié - MyNita</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Mot de passe oublié</h2>
+
+    <!-- Étape 1 : saisir email -->
+    <div id="step-email">
+        <input type="email" id="email" placeholder="Votre email">
+        <button id="sendOtpBtn">Envoyer OTP</button>
+    </div>
+
+    <!-- Étape 2 : vérifier OTP -->
+    <div id="step-otp" style="display:none;">
+        <input type="text" id="otp" placeholder="Entrez le code reçu">
+        <button id="verifyOtpBtn">Vérifier OTP</button>
+    </div>
+
+    <!-- Étape 3 : nouveau mot de passe -->
+    <div id="step-reset" style="display:none;">
+        <input type="password" id="newPassword" placeholder="Nouveau mot de passe">
+        <button id="resetPwdBtn">Réinitialiser mot de passe</button>
+    </div>
+
+    <div id="message" style="margin-top:15px;color:red;"></div>
+</div>
+
+<script>
+const msgDiv = document.getElementById('message');
+
+// Étape 1 : envoyer OTP
+document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    if(!email){ msgDiv.textContent = 'Saisissez votre email'; return; }
+
+    const res = await fetch('/api/forgot_send_otp', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email})
+    });
+    const j = await res.json();
+    if(j.ok){
+        msgDiv.style.color = 'green';
+        msgDiv.textContent = 'OTP envoyé sur votre email';
+        document.getElementById('step-email').style.display = 'none';
+        document.getElementById('step-otp').style.display = 'block';
+    } else {
+        msgDiv.style.color = 'red';
+        msgDiv.textContent = j.error;
+    }
+});
+
+// Étape 2 : vérifier OTP
+document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+    const otp = document.getElementById('otp').value.trim();
+    if(!otp){ msgDiv.textContent = 'Entrez le code OTP'; return; }
+
+    const res = await fetch('/api/forgot_verify_otp', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({otp})
+    });
+    const j = await res.json();
+    if(j.ok){
+        msgDiv.style.color = 'green';
+        msgDiv.textContent = 'OTP vérifié, entrez votre nouveau mot de passe';
+        document.getElementById('step-otp').style.display = 'none';
+        document.getElementById('step-reset').style.display = 'block';
+    } else {
+        msgDiv.style.color = 'red';
+        msgDiv.textContent = j.error;
+    }
+});
+
+// Étape 3 : réinitialiser mot de passe
+document.getElementById('resetPwdBtn').addEventListener('click', async () => {
+    const newPwd = document.getElementById('newPassword').value.trim();
+    if(!newPwd){ msgDiv.textContent = 'Saisissez un mot de passe'; return; }
+
+    const res = await fetch('/api/forgot_reset_password', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({new_password: newPwd})
+    });
+    const j = await res.json();
+    if(j.ok){
+        msgDiv.style.color = 'green';
+        msgDiv.textContent = 'Mot de passe réinitialisé ! Vous pouvez vous connecter.';
+        setTimeout(()=>{ window.location.href='/'; }, 2000);
+    } else {
+        msgDiv.style.color = 'red';
+        msgDiv.textContent = j.error;
+    }
+});
+</script>
+</body>
+</html>

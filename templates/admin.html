@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Tableau Admin</h2>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Mot de passe (hash)</th>
+                <th>Terms accepté</th>
+                <th>Date de création</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if users %}
+                {% for u in users %}
+                <tr>
+                    <td>{{ u[0] }}</td>
+                    <td>{{ u[1] }}</td>
+                    <td>{{ u[2] }}</td>
+                    <td>{{ u[3] }}</td>
+                    <td>{{ u[4] }}</td>
+                    <td>{{ u[5] }}</td>
+                    <td>{{ 'Oui' if u[6] else 'Non' }}</td>
+                    <td>{{ u[7] }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun utilisateur trouvé</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
