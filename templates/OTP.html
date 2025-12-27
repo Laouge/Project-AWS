@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validation du code OTP</title>
+<link rel="stylesheet" href="/static/OTP.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" class="logo">
+        <h2>Validation du code OTP</h2>
+    </div>
+
+    <p class="subtitle">
+        Entrez le code OTP qui vous a été envoyé. Le code expire dans 
+        <span class="highlight">5 minutes</span>.
+    </p>
+
+    <div class="otp-box">
+        <input id="o1" type="text" maxlength="1" class="otp-input">
+        <input id="o2" type="text" maxlength="1" class="otp-input">
+        <input id="o3" type="text" maxlength="1" class="otp-input">
+        <input id="o4" type="text" maxlength="1" class="otp-input">
+    </div>
+
+    <p id="debugOtp" style="color:red; font-weight:bold; margin-top:10px;"></p>
+
+    <button id="resendBtn" class="resend-btn" disabled>
+        Renvoyer le code dans <span id="timer">41</span> sec
+    </button>
+</div>
+
+<script>
+const inputs = Array.from(document.querySelectorAll('.otp-input'));
+const debugEl = document.getElementById('debugOtp');
+let correctOTP = "";
+
+// Appel pour générer l'OTP et récupérer debug_otp pour dev
+fetch('/api/send_otp', { method: 'POST' })
+.then(res => res.json())
+.then(data => {
+    if(data.ok){
+        correctOTP = data.debug_otp || "";
+        if(correctOTP){
+            debugEl.textContent = "Code OTP (dev) : " + correctOTP;
+        }
+    } else {
+        alert(data.error || 'Erreur lors de l\'envoi du code');
+    }
+});
+
+// Gestion de la saisie des 4 chiffres
+inputs.forEach((input, idx) => {
+    input.addEventListener('input', () => {
+        if(input.value && idx < inputs.length -1) inputs[idx+1].focus();
+
+        const code = inputs.map(i => i.value).join('');
+        if(code.length === 4){
+            verifyOTP(code);
+        }
+    });
+});
+
+async function verifyOTP(code){
+    const res = await fetch('/api/verify_otp', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ code })
+    });
+    const j = await res.json();
+    if(j.ok){
+        // Redirection automatique vers /validation
+        window.location.href = '/validation';
+    } else {
+        alert(j.error || 'OTP incorrect');
+        inputs.forEach(i => i.value = '');
+        inputs[0].focus();
+    }
+}
+
+// Timer pour le bouton renvoi
+let timeLeft = 41;
+const timerEl = document.getElementById('timer');
+const resendBtn = document.getElementById('resendBtn');
+
+const interval = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    if(timeLeft <= 0){
+        clearInterval(interval);
+        resendBtn.disabled = false;
+        resendBtn.textContent = "Renvoyer le code";
+    }
+}, 1000);
+
+// Gestion du bouton renvoi OTP
+resendBtn.addEventListener('click', async () => {
+    const r = await fetch('/api/send_otp', { method: 'POST' });
+    const j = await r.json();
+    if(j.ok){
+        alert('Code renvoyé au numéro : ' + j.sent_to);
+        // reset timer
+        timeLeft = 41;
+        resendBtn.disabled = true;
+        resendBtn.innerHTML = 'Renvoyer le code dans <span id="timer">41</span> sec';
+        if(j.debug_otp) debugEl.textContent = "Code OTP (dev) : " + j.debug_otp;
+    } else {
+        alert(j.error || 'Erreur lors de l\'envoi du code');
+    }
+});
+</script>
+
+</body>
+</html>
