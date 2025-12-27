@@ -1,0 +1,228 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body : centre EXACTEMENT le contenu */
+body {
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Top-bar */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border-bottom: 1px solid #e6e6e6;
+    background: #fff;
+    z-index: 50;
+}
+
+/* Titre */
+.top-bar h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+}
+
+/* Flèche retour */
+.top-bar .back-arrow {
+    font-size: 22px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+/* Container : centré verticalement et horizontalement */
+.container {
+    width: 100%;
+    max-width: 380px;
+    padding: 20px;
+    margin-top: 60px; /* espace pour top-bar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Inputs généraux */
+.input,
+.phone-box,
+.password-box {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.input {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
+    background: #f5f5f5;
+    font-size: 15px;
+}
+
+/* Téléphone */
+.phone-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    background: #f5f5f5;
+    border-radius: 10px;
+    position: relative;
+    padding-right: 12px;
+}
+
+.phone-prefix {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.flag {
+    width: 22px;
+    height: auto;
+}
+
+.arrow {
+    font-size: 16px;
+    user-select: none;
+}
+
+#indicatif {
+    font-size: 15px;
+}
+
+.phone-input {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+}
+
+.phone-input:focus {
+    outline: none;
+}
+
+/* Dropdown indicatifs */
+.country-list {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 100;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+.country-list li {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.country-list li:hover {
+    background: #f0f0f0;
+}
+
+.flag-small {
+    width: 20px;
+    height: auto;
+}
+
+/* Password */
+.password-box {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 10px;
+    background: #f5f5f5;
+    border: 1px solid #d9d9d9;
+}
+
+.password-box input {
+    flex: 1;
+    padding: 14px 0;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+}
+
+.password-box input:focus {
+    outline: none;
+}
+
+.password-box .eye {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Label Parrainage */
+.label-text {
+    margin-top: 20px;
+    display: block;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Checkbox */
+.checkbox-box {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.checkbox-box input {
+    margin-right: 10px;
+    margin-top: 3px;
+}
+
+.link {
+    color: #007bff;
+    cursor: pointer;
+}
+
+/* Bouton suivant */
+#btnSuivant {
+    margin-top: 25px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#btnSuivant:active {
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+    .container { padding: 16px; margin-top: 60px; max-width: 94vw; }
+    .top-bar { padding: 0 10px; height: 56px; }
+}
