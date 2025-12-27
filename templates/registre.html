@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Créer un compte</title>
+<link rel="stylesheet" href="/static/registre.css">
+</head>
+<body>
+
+<header class="top-bar">
+    <span class="back-arrow">&#8592;</span>
+    <h2>Créer un compte</h2>
+</header>
+
+<div class="container">
+    <form id="form">
+        <input id="prenom" type="text" placeholder="Entrer votre prénom" class="input full">
+        <input id="nom" type="text" placeholder="Entrer votre nom" class="input full">
+
+        <!-- Téléphone -->
+        <div class="phone-box full">
+            <div class="phone-prefix" id="phonePrefix">
+                <img id="flag" src="" alt="flag" class="flag">
+                <span id="indicatif">+227</span>
+                <span class="arrow">&#9662;</span>
+            </div>
+            <input id="telephone" type="text" placeholder="N° de téléphone" class="phone-input">
+            <ul class="country-list" id="countryList"></ul>
+        </div>
+
+        <input id="email" type="email" placeholder="Entrer votre email" class="input full">
+
+        <div class="password-box full">
+            <input id="password" type="password" placeholder="Mot de Passe">
+            <span class="eye">&#128065;</span>
+        </div>
+
+        <div class="password-box full">
+            <input id="confirmPassword" type="password" placeholder="Confirmez le mot de passe">
+            <span class="eye">&#128065;</span>
+        </div>
+
+        <label class="label-text" style="margin-top:25px;">Code de parrainage</label>
+        <input id="parrain" type="text" placeholder="00227XXXXXXXX" class="input full">
+
+        <div class="checkbox-box">
+            <input type="checkbox" id="terms">
+            <label for="terms">J’ai lu et j’accepte les <span class="link">Termes et conditions</span></label>
+        </div>
+
+        <button type="button" id="btnSuivant">Suivant</button>
+    </form>
+</div>
+
+<script>
+// Load flags.json (from static/flags.json)
+const phonePrefix = document.getElementById("phonePrefix");
+const countryList = document.getElementById("countryList");
+const flagImg = document.getElementById("flag");
+const indicatifSpan = document.getElementById("indicatif");
+
+fetch('/flags.json')
+.then(r => r.json())
+.then(data => {
+    data.forEach(country => {
+        const li = document.createElement('li');
+        li.setAttribute('data-flag', country.flag);
+        li.setAttribute('data-code', country.indicatif);
+        li.innerHTML = `<img class="flag-small" src="${country.flag}"> ${country.pays} (${country.indicatif})`;
+        countryList.appendChild(li);
+
+        if (country.indicatif === "+227") {
+            flagImg.src = country.flag;
+            indicatifSpan.textContent = country.indicatif;
+        }
+
+        li.addEventListener('click', () => {
+            flagImg.src = li.getAttribute('data-flag');
+            indicatifSpan.textContent = li.getAttribute('data-code');
+            countryList.style.display = 'none';
+        });
+    });
+});
+
+// show/hide list
+phonePrefix.addEventListener('click', () => {
+    countryList.style.display = countryList.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', (e) => {
+    if (!phonePrefix.contains(e.target) && !countryList.contains(e.target)) countryList.style.display = 'none';
+});
+
+// Suivant -> save temp signup (session) then redirect to identification flow
+document.getElementById('btnSuivant').addEventListener('click', async () => {
+    const nom = document.getElementById('nom').value.trim();
+    const prenom = document.getElementById('prenom').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telephone = document.getElementById('telephone').value.trim();
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirmPassword').value;
+    const terms = document.getElementById('terms').checked;
+
+    if (!nom || !prenom || !email || !telephone || !password) { alert('Remplissez tous les champs'); return; }
+    if (password !== confirm) { alert('Mots de passe différents'); return; }
+    if (!terms) { alert('Acceptez les conditions'); return; }
+
+    const payload = {
+        nom, prenom, email, phone: indicatifSpan.textContent + telephone,
+        password, accepted_terms: terms
+    };
+
+    const res = await fetch('/api/signup_temp', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+    });
+    const j = await res.json();
+    if (j.ok) {
+        // continuer flow -> identification page
+        window.location.href = '/identification';
+    } else {
+        alert(j.error || 'Erreur');
+    }
+});
+</script>
+</body>
+</html>
