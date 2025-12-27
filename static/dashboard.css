@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6600; /* couleur orange pour le titre */
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* pour contrôle largeur des colonnes */
+}
+
+.admin-table th, .admin-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.admin-table th {
+    background-color: #ff6600; /* barre orange */
+    color: white;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:hover {
+    background-color: #ffe6cc; /* survol orange clair */
+}
+
+/* Ajustement des colonnes pour mot de passe proche d'email */
+.admin-table th:nth-child(5), .admin-table td:nth-child(5), /* Email */
+.admin-table th:nth-child(6), .admin-table td:nth-child(6)  /* Mot de passe */
+{
+    width: 20%; /* ajuster pour les rapprocher */
+}
+
+.admin-table th:nth-child(1), .admin-table td:nth-child(1) {
+    width: 5%;
+}
+
+.admin-table th:nth-child(2), .admin-table td:nth-child(2),
+.admin-table th:nth-child(3), .admin-table td:nth-child(3) {
+    width: 12%;
+}
+
+.admin-table th:nth-child(4), .admin-table td:nth-child(4) {
+    width: 12%;
+}
+
+.admin-table th:nth-child(7), .admin-table td:nth-child(7) {
+    width: 5%;
+}
+
+.admin-table th:nth-child(8), .admin-table td:nth-child(8) {
+    width: 14%;
+}
