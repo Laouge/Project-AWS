@@ -1,0 +1,99 @@
+/* Base --------------------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+}
+
+body {
+    background: #eef3f3;      /* fond clair comme sur l’image */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+/* Container ---------------------------------------------*/
+.container {
+    width: 92%;
+    max-width: 450px;
+}
+
+/* Bouton retour -----------------------------------------*/
+.back {
+    font-size: 26px;
+    color: #4a4a4a;
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding-left: 5px;
+}
+
+/* Titre --------------------------------------------------*/
+.title {
+    text-align: center;
+    font-size: 22px;
+    color: #0d4a8c;   /* bleu comme sur la capture */
+    margin-bottom: 35px;
+    font-weight: 600;
+}
+
+/* Informations -------------------------------------------*/
+.info-list {
+    margin-bottom: 40px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.label {
+    font-size: 17px;
+    font-weight: bold;
+    color: #252525;
+}
+
+.value {
+    font-size: 17px;
+    color: #1f1f1f;
+    max-width: 60%;
+    text-align: right;
+}
+
+/* Email plus long : retour à la ligne */
+.email {
+    display: block;
+    line-height: 22px;
+    word-break: break-word;
+}
+
+/* Boutons ------------------------------------------------*/
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Style bouton général */
+.btn {
+    width: 48%;
+    padding: 14px 0;
+    font-size: 16px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Bouton Retour */
+.back-btn {
+    background: #b4b3b3;
+    color: white;
+}
+
+/* Bouton Créer le compte */
+.create-btn {
+    background: #0b57a1;
+    color: white;
+}
